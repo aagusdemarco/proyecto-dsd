@@ -1,6 +1,6 @@
 import datetime
 import pandas as pd
-import numpy as np
+import matplotlib.pyplot as plt
 
 # Funciones para encontrar palabras y numeros repetidos
 
@@ -55,3 +55,32 @@ def cadenas_minus_df(data_frame):
         if data_frame[columna].dtype == 'object':
             df_minus[columna] = data_frame[columna].apply(str).str.lower()
     return df_minus
+
+
+# Funciones para manipular y generar gráficos
+
+def grafico_barras(dataframe, nombre, titulo, ejex, ejey):
+    dataframe = pd.DataFrame(dataframe)
+    plt.figure()
+    graph = dataframe.plot.bar(stacked = False)
+    graph.set_title(titulo)
+    graph.set_xlabel(ejex)
+    graph.set_ylabel(ejey)
+    plt.savefig(f'{nombre}.jpg')
+
+def grafico_lineas(dataframe, nombre, titulo, ejex, ejey):
+    dataframe = pd.DataFrame(dataframe)
+    plt.figure()
+    graph = dataframe.plot.line()
+    graph.set_title(titulo)
+    graph.set_xlabel(ejex)
+    graph.set_ylabel(ejey)
+    plt.savefig(f'{nombre}.jpg')
+
+def grafico_puntos(dataframe, nombre, titulo, ejex, ejey):
+    plt.figure()
+    graph = dataframe.plot.scatter(x=ejex, y=ejey)
+    graph.set_title(titulo)
+    graph.set_xlabel(ejex)
+    graph.set_ylabel(ejey)
+    plt.savefig(f'{nombre}.jpg')
