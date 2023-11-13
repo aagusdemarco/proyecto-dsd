@@ -1,6 +1,7 @@
 import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
+import yagmail as gmail
 
 # Funciones para encontrar palabras y numeros repetidos
 
@@ -78,9 +79,24 @@ def grafico_lineas(dataframe, nombre, titulo, ejex, ejey):
     plt.savefig(f'{nombre}.jpg')
 
 def grafico_puntos(dataframe, nombre, titulo, ejex, ejey):
+    dataframe = pd.DataFrame(dataframe)
     plt.figure()
     graph = dataframe.plot.scatter(x=ejex, y=ejey)
     graph.set_title(titulo)
     graph.set_xlabel(ejex)
     graph.set_ylabel(ejey)
     plt.savefig(f'{nombre}.jpg')
+
+
+# Funciones para enviar emails
+
+def usuario_constrasenia(ruta):
+    with open(ruta, 'r') as archivo:
+        lineas = archivo.readlines()
+        mail = lineas[0].strip()
+        constrasenia = lineas[1].strip()
+    return mail, constrasenia
+
+def enviar_mail(mail, contrasenia, asunto, mensaje, destinatarios):
+    yag = gmail.SMTP(user=mail, password=contrasenia)
+    yag.send(destinatarios, asunto, mensaje)
