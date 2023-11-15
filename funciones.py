@@ -91,12 +91,19 @@ def grafico_puntos(dataframe, nombre, titulo, ejex, ejey):
 # Funciones para enviar emails
 
 def usuario_constrasenia(ruta):
-    with open(ruta, 'r') as archivo:
-        lineas = archivo.readlines()
-        mail = lineas[0].strip()
-        constrasenia = lineas[1].strip()
-    return mail, constrasenia
+    try:    
+        with open(ruta, 'r') as archivo:
+            lineas = archivo.readlines()
+            mail = lineas[0].strip()
+            constrasenia = lineas[1].strip()
+        return mail, constrasenia
+    except FileNotFoundError:
+        print('El arcivo no fue encontrado.')
 
 def enviar_mail(mail, contrasenia, asunto, mensaje, destinatarios):
-    yag = gmail.SMTP(user=mail, password=contrasenia)
-    yag.send(destinatarios, asunto, mensaje)
+    try:
+        yag = gmail.SMTP(user=mail, password=contrasenia)
+        yag.send(destinatarios, asunto, mensaje)
+        print('Los email se han enviado correctamente.')
+    except Exception as error:
+        print(f'El siguiente error surge al enviar los correos: {error}')
